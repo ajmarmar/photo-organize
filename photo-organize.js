@@ -21,7 +21,7 @@ process.on('exit', () => {
 
 program.version('1.4').usage('<directory> [options]')
       .option('-d, --dry', 'do not perform move', setDryOption)
-      .option('-f --format <type>', 'Set format of directory', setFormatDir);
+      .option('-f --format <format>', 'Set format of directory', setFormatDir);
 program.parse(process.argv);
 
 let directoryName = null;
