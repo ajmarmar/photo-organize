@@ -7,7 +7,7 @@ import { format, subHours } from 'date-fns';
 import { program } from 'commander';
 import { exiftool } from 'exiftool-vendored';
 
-const validExtensions = ['.jpg', '.jpeg', '.mp4', '.dng', '.tiff', '.nef', '.orf'];
+const validExtensions = ['.jpg', '.jpeg', '.mp4', '.dng', '.tiff', '.nef', '.orf','.cr2','.raf','.arw'];
 const morningLimit = 5; // 5am;
 
 let optionDry = false;
@@ -19,9 +19,10 @@ process.on('exit', () => {
   console.timeEnd('execution');
 })
 
-program.version('1.4').usage('<directory> [options]')
+program.version('1.5').usage('<directory> [options]')
       .option('-d, --dry', 'do not perform move', setDryOption)
-      .option('-f --format <format>', 'Set format of directory', setFormatDir);
+      .option('-f --format <format>', 'Set format of directory', setFormatDir)
+      .option('-e --ext <extension>', 'add extension files, separated with ,', setExtension);
 program.parse(process.argv);
 
 let directoryName = null;
@@ -169,5 +170,12 @@ function setDryOption () {
 
 function setFormatDir(value){
   optionDir = value;
+  return true;
+}
+
+function setExtension(value) {
+  value.split(',').forEach(e => {
+    validExtensions.push(e.trim().startsWith('.')? e.trim() : '.' + e.trim());
+  });
   return true;
 }
